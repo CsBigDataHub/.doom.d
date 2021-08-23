@@ -204,6 +204,7 @@
        (default +bindings +smartparens)
        :private
        library
+       ctabs
        pretty-hydra
        bm
        )
