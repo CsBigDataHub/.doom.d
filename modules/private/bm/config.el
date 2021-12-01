@@ -37,7 +37,7 @@
   (add-hook 'after-save-hook #'bm-buffer-save)
 
   ;; Restoring bookmarks
-  (add-hook 'find-file-hooks   #'bm-buffer-restore)
+  (add-hook 'find-file-hook   #'bm-buffer-restore)
   (add-hook 'after-revert-hook #'bm-buffer-restore)
 
   ;; The `after-revert-hook' is not necessary to use to achieve persistence,
@@ -85,7 +85,7 @@
   )
 
 
-(use-package bookmark
+(use-package! bookmark
   :config
   (with-no-warnings
     ;; Display icons for bookmarks
