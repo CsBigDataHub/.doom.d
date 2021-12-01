@@ -3,12 +3,14 @@
 
 ;;------------------------centaur-tabs--------------------------------------------
 
-(setq centaur-tabs-style "bar"
-      centaur-tabs-height 25
-      centaur-tabs-set-icons t
-      centaur-tabs-set-modified-marker t
-      centaur-tabs-set-bar 'over
-      x-underline-at-descent-line t)
+(after! centaur-tabs
+  :init
+  (setq centaur-tabs-style "bar"
+        centaur-tabs-height 25
+        centaur-tabs-set-icons t
+        centaur-tabs-set-modified-marker t
+        centaur-tabs-set-bar 'left
+        x-underline-at-descent-line t)
   ;; (setq centaur-tabs-gray-out-icons 'buffer)
   ;; (centaur-tabs-enable-buffer-reordering)
   ;; (setq centaur-tabs-adjust-buffer-order t)
@@ -80,6 +82,6 @@
        ;; Is not magit buffer.
        (and (string-prefix-p "magit" name)
             (not (file-name-extension name)))
-       )))
+       ))))
 
 ;;--------------------------------------------------------------------------------
