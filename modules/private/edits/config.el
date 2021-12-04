@@ -91,7 +91,7 @@
          (prog-mode . goto-address-prog-mode)))
 
 ;; Jump to things in Emacs tree-style
-(use-package! avy
+(use-package avy
   ;; ;;my-personal-config
   :bind (("M-s s" . avy-goto-char)
          ("M-s W" . avy-goto-word-0)
@@ -108,56 +108,15 @@
 
 ;; my-personal
 ;; Replace zap-to-char functionaity with the more powerful zop-to-char
-(use-package! zop-to-char
+(use-package zop-to-char
   :bind (("M-z" . zop-up-to-char)
          ("M-s-ω" . zop-to-char)
          ("M-Z" . zop-to-char)
          ))
 
 ;; my-personal
-
-;; Quickly follow links
-(use-package! ace-link
-  :defines (org-mode-map
-            gnus-summary-mode-map
-            gnus-article-mode-map
-            ert-results-mode-map
-            paradox-menu-mode-map
-            elfeed-show-mode-map)
-  :bind ("M-o" . ace-link-addr)
-  :hook (after-init . ace-link-setup-default)
-  :config
-  (with-eval-after-load 'org
-    (bind-key "M-o" #'ace-link-org org-mode-map))
-
-  (with-eval-after-load 'gnus
-    (bind-keys
-     :map gnus-summary-mode-map
-     ("M-o" . ace-link-gnus)
-     :map gnus-article-mode-map
-     ("M-o" . ace-link-gnus)))
-
-  (with-eval-after-load 'ert
-    (bind-key "o" #'ace-link-help ert-results-mode-map))
-
-  (bind-keys
-   :map package-menu-mode-map
-   ("o" . ace-link-help)
-   :map process-menu-mode-map
-   ("o" . ace-link-help))
-  (with-eval-after-load 'paradox
-    (bind-key "o" #'ace-link-help paradox-menu-mode-map))
-
-  (with-eval-after-load 'elfeed
-    (bind-key "o" #'ace-link elfeed-show-mode-map)))
-
-;; Jump to Chinese characters
-;; (use-package ace-pinyin
-;;   :diminish
-;;   :hook (after-init . ace-pinyin-global-mode))
-
 ;; Minor mode to aggressively keep your code always indented
-(use-package! aggressive-indent
+(use-package aggressive-indent
   :diminish
   :hook ((after-init . global-aggressive-indent-mode)
          ;; FIXME: Disable in big files due to the performance issues
@@ -181,7 +140,7 @@
                                          (thing-at-point 'line))))))
 
 ;; Show number of matches in mode-line while searching
-(use-package! anzu
+(use-package anzu
   :diminish
   :bind (([remap query-replace] . anzu-query-replace)
          ([remap query-replace-regexp] . anzu-query-replace-regexp)
@@ -191,12 +150,9 @@
   :hook (after-init . global-anzu-mode))
 
 ;; Redefine M-< and M-> for some modes
-(use-package! beginend
-    :diminish beginend-global-mode
+(use-package beginend
     :hook (after-init . beginend-global-mode)
-    :config (mapc (lambda (pair)
-                    (diminish (cdr pair)))
-                  beginend-modes))
+ )
 
 ;; A comprehensive visual interface to diff & patch
 (use-package ediff
@@ -258,7 +214,7 @@
 ;;          (if (char-equal c ?\") t (,electric-pair-inhibit-predicate c))))
 
 ;; Edit multiple regions in the same way simultaneously
-(use-package! iedit
+(use-package iedit
   :defines desktop-minor-mode-table
   :bind (("C-;" . iedit-mode)
          ("C-x r RET" . iedit-rectangle-mode)
@@ -272,11 +228,12 @@
                  '(iedit-mode nil))))
 
 ;; Increase selected region by semantic units
-(use-package! expand-region
-  :bind ("C-=" . er/expand-region))
+(use-package expand-region
+  :bind ("s-+" . er/expand-region))
+(map! "s-+" #'er/expand-region)
 
 ;; Multiple cursors
-(use-package! multiple-cursors
+(use-package multiple-cursors
   :demand t ;;;; mc/num-cursors is not autoloaded
   :preface
   ;; preface is my-personal config
@@ -340,7 +297,7 @@
 ;;  :hook (after-init . smart-region-on))
 
 ;; On-the-fly spell checker
-(use-package! flyspell
+(use-package flyspell
   :diminish
   :if (executable-find "aspell")
   :hook (((text-mode outline-mode) . flyspell-mode)
@@ -352,46 +309,39 @@
               ispell-program-name "aspell"
               ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together"))
   :config
-  (use-package! flyspell-correct
+  (use-package flyspell-correct
     :after flyspell
     :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
   ;; Correcting words with flyspell via Ivy
-  (use-package! flyspell-correct-ivy
+  (use-package flyspell-correct-ivy
     :after ivy
     :bind (:map flyspell-mode-map
            ([remap flyspell-correct-word-before-point] . flyspell-correct-wrapper))
     :init (setq flyspell-correct-interface #'flyspell-correct-ivy)))
 
-;; ;; Hungry deletion
-;; (use-package hungry-delete
-;;   :diminish
-;;   :hook (after-init . global-hungry-delete-mode)
-;;   :init (setq hungry-delete-chars-to-skip " \t\f\v"
-;;               hungry-delete-except-modes
-;;               '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode)))
+;; Hungry deletion
+(use-package hungry-delete
+  :diminish
+  :hook (after-init . global-hungry-delete-mode)
+  :init (setq hungry-delete-chars-to-skip " \t\f\v"
+              hungry-delete-except-modes
+              '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode)))
 
-;; ;; Framework for mode-specific buffer indexes
-;; (use-package imenu
-;;   :ensure nil
-;;   :bind (("C-." . imenu)))
-
-;; ;; my-personal
-;; (use-package imenu-anywhere
-;;   :bind (("M-I" . ivy-imenu-anywhere)
-;;          ("C-c i i" . ivy-imenu-anywhere)))
+;; my-personal
+(use-package imenu-anywhere
+  :bind (("M-I" . ivy-imenu-anywhere)
+         ("C-c i i" . ivy-imenu-anywhere)))
 
 
-;; (use-package imenu-list
-;;   :config
-;;   (setq-default imenu-list-position "left"
-;;                 imenu-list-size 0.65))
+(use-package imenu-list
+  :config
+  (setq-default imenu-list-position "left"
+                imenu-list-size 0.65))
 
-;; ;; my-personal
-
-;; ;; Move to the beginning/end of line or code
-;; (use-package mwim
-;;   :bind (([remap move-beginning-of-line] . mwim-beginning-of-code-or-line)
-;;          ([remap move-end-of-line] . mwim-end-of-code-or-line)))
+;; Move to the beginning/end of line or code
+(use-package mwim
+  :bind (([remap move-beginning-of-line] . mwim-beginning-of-code-or-line)
+         ([remap move-end-of-line] . mwim-end-of-code-or-line)))
 
 ;; ;; Windows-scroll commands
 ;; (use-package pager
@@ -404,79 +354,13 @@
 ;;          ([M-down] . pager-row-down)
 ;;          ([M-kp-2] . pager-row-down)))
 
-;; ;; Treat undo history as a tree
-;; (use-package undo-tree
-;;   :diminish
-;;   :hook (after-init . global-undo-tree-mode)
-;;   :config
-;;   (add-to-list 'undo-tree-incompatible-major-modes #'magit-modes)
-;;   :init
-;;   (setq undo-tree-visualizer-timestamps t
-;;         undo-tree-enable-undo-in-region nil
-;;         undo-tree-auto-save-history nil)
+;; Handling capitalized subwords in a nomenclature
+(use-package subword
+  :diminish
+  :hook ((prog-mode . subword-mode)
+         (minibuffer-setup . subword-mode)))
 
-;;   ;; HACK: keep the diff window
-;;   (with-no-warnings
-;;     (make-variable-buffer-local 'undo-tree-visualizer-diff)
-;;     (setq-default undo-tree-visualizer-diff t)))
-
-;; ;; Goto last change
-;; (use-package goto-chg
-;;   :bind ("C-," . goto-last-change))
-
-;; ;; Preview when `goto-char'
-;; (use-package goto-char-preview
-;;   :bind ([remap goto-char] . goto-char-preview))
-
-;; ;; Preview when `goto-line'
-;; (use-package goto-line-preview
-;;   :bind ([remap goto-line] . goto-line-preview))
-
-;; ;; Handling capitalized subwords in a nomenclature
-;; (use-package subword
-;;   :ensure nil
-;;   :diminish
-;;   :hook ((prog-mode . subword-mode)
-;;          (minibuffer-setup . subword-mode)))
-
-;; ;; Hideshow
-;; (use-package hideshow
-;;   :ensure nil
-;;   :diminish hs-minor-mode
-;;   :bind (:map hs-minor-mode-map
-;;          ("C-`" . hs-toggle-hiding)))
-
-;; ;; Flexible text folding
-;; ;; https://github.com/gregsexton/origami.el/wiki/Origami---Evil-Operator-Example - for evil configuration.
-;; (use-package origami
-;;   :pretty-hydra
-;;   ((:title (pretty-hydra-title "Origami" 'octicon "fold" :height 1.1 :v-adjust -0.05)
-;;     :foreign-keys run :color amaranth :quit-key "q")
-;;    ("Node"
-;;     ((";" origami-recursively-toggle-node "toggle recursively")
-;;      ("a" origami-toggle-all-nodes "toggle all")
-;;      ("t" origami-toggle-node "toggle current")
-;;      ("o" origami-open-node "open current")
-;;      ("c" origami-close-node "close current")
-;;      ("s" origami-show-only-node "only show current"))
-;;     "Actions"
-;;     (("u" origami-undo "undo")
-;;      ("d" origami-redo "redo")
-;;      ("r" origami-reset "reset")
-;;      ("n" origami-next-fold "next fold")
-;;      ("p" origami-previous-fold "previous fold"))))
-;;   :bind (:map origami-mode-map
-;;          ("C-~" . origami-hydra/body))
-;;   :hook (prog-mode . origami-mode)
-;;   :init (setq origami-show-fold-header t)
-;;   :config (face-spec-reset-face 'origami-fold-header-face))
-
-;; ;; Narrow/Widen
-;; (use-package fancy-narrow
-;;   :diminish
-;;   :hook (after-init . fancy-narrow-mode))
-
-;; (provide 'init-edit)
-
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ;;; init-edit.el ends here
+;; Narrow/Widen
+(use-package fancy-narrow
+  :diminish
+  :hook (after-init . fancy-narrow-mode))

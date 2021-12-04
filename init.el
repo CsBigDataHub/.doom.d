@@ -219,4 +219,5 @@
   bm
   my-calendar
   mydired
+  edits
   )
